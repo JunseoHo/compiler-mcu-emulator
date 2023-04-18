@@ -15,6 +15,7 @@ and consists of four modules:<br>
 <br>
 MCU is a virtual device that emulate the operation of computing hardware.<br>
 and consists of three modules:<br>
+
 * CPU : fetch, decode, execute instructions from memory
 * Memory : store instructions and data
 * Loader : load program to Memory
