@@ -11,7 +11,8 @@ and consists of four modules:<br>
 * Lexer : analysis source code, create a symbol Table by dividing the source code into tokens.
 * Parser : based on the production rule, create a parse tree with tokens from the symbol table.
 * Generator : traverse the parse tree, generate machine code.
-  <br><br>
+
+<br><br>
 MCU is a virtual device that emulate the operation of computing hardware.<br>
 and consists of three modules:<br>
 * CPU : fetch, decode, execute instructions from memory
