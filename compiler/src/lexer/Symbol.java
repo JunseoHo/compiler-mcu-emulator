@@ -1,13 +1,34 @@
 package lexer;
 
-public class Symbol {
+public enum Symbol {
 
-    public String name;
-    public String regex;
+    IF("^if$"),
 
-    public Symbol(String name, String regex) {
-        this.name = name;
+    ENDIF("^endif$"),
+
+    WHILE("^while$"),
+
+    ENDWHILE("^endwhile$"),
+
+    RELATIONAL_OPERATOR("^!=|<|>$"),
+
+    ARITHMETIC_OPERATOR("^\\+|-|/|\\*$"),
+
+    EQUALS_SIGN("^=$"),
+
+    PRINT_FUNC("^print$"),
+
+    IDENTIFIER("^[^0-9][a-zA-Z0-9]*$"),
+
+    NUMBER("^[0-9]*$");
+
+    private String regex;
+
+    Symbol(String regex) {
         this.regex = regex;
     }
 
+    String getRegex() {
+        return regex;
+    }
 }
