@@ -12,7 +12,6 @@ and consists of four modules:<br>
 * Parser : based on the production rule, create a parse tree with tokens from the symbol table.
 * Generator : traverse the parse tree, generate machine code.
 
-<br>
 MCU is a virtual device that emulate the operation of computing hardware.<br>
 and consists of three modules:<br>
 
