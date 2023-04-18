@@ -239,7 +239,7 @@ public class CPU {
     }
 
     private void jpp() {
-        if (!NEGATIVE_FLAG && !ZERO_FLAG)
+        if (!NEGATIVE_FLAG || ZERO_FLAG)
             PC = OPERAND;
     }
 

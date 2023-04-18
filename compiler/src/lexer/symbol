@@ -1,0 +1,12 @@
+IF=^if$
+ENDIF=^endif$
+WHILE=^while$
+ENDWHILE=^endwhile$
+RELATIONAL_OPERATOR=^!=|<|>$
+BRACE_L=^\{$
+BRACE_R=^\}$
+ARITHMETIC_OPERATOR=^\+|-|/|\*$
+EQUALS_SIGN=^=$
+PRINT_FUNC=^print$
+IDENTIFIER=^[^0-9][a-zA-Z0-9]*$
+NUMBER=^[0-9]*$
