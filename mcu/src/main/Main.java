@@ -20,7 +20,7 @@ public class Main {
                     case "-help" -> Option.HELP_OPTION = true;
                     case "-p" -> Option.PRINT_OPTION = true;
                     case "-d" -> Option.DEBUGGING_OPTION = true;
-                    default -> sourceFile = arg;
+                    default -> sourceFile = "../../" + arg;
                 }
             }
             if (Option.HELP_OPTION) printFile("help");

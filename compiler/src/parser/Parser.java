@@ -29,7 +29,7 @@ public class Parser {
         for (int i = 0; i < width; i++)
             System.out.print(" ");
         if (width > 0)
-            System.out.print("└ ");
+            System.out.print("L ");
         System.out.println(node);
         for (Token child : node.children)
             printParseTree(child, width + node.toString().length() - 1);

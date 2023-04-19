@@ -22,7 +22,7 @@ public enum Symbol {
 
     NUMBER("^[0-9]*$");
 
-    private String regex;
+    private final String regex;
 
     Symbol(String regex) {
         this.regex = regex;

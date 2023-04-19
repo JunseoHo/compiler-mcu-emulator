@@ -5,15 +5,15 @@ import lexer.Lexer;
 import parser.Parser;
 import preprocessor.Preprocessor;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) {
-        String sourceCode;
-        if (args.length != 0 || (sourceCode = read((new File("compiler/sample/sample01")))) == null) {
+    public static void main(String[] args) throws IOException {
+        String sourceCode = null;
+        String objectFileName = "../../" + args[0] + ".o";
+        if (args.length == 0 || (sourceCode = read((new File("../../" + args[0])))) == null) {
             System.out.print("Source file not found");
             return;
         }
@@ -41,6 +41,7 @@ public class Main {
         System.out.printf("%-20s%-7s\n", "Code Generation", "OK :)");
 
         System.out.println("The source code has been compiled successfully!");
+        write(objectFileName, generator.getInstructions());
     }
 
     public static String read(File file) {
@@ -54,6 +55,12 @@ public class Main {
         } catch (FileNotFoundException e) {
             return null;
         }
+    }
+
+    public static void write(String filePath, String code) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
+        writer.write(code);
+        writer.close();
     }
 
 }

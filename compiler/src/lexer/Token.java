@@ -7,8 +7,8 @@ import java.util.List;
 
 public class Token {
 
-    public Statement statement;
     public Symbol symbol;
+    public Statement statement;
     public String value;
     public List<Token> children;
 
@@ -20,17 +20,14 @@ public class Token {
     }
 
     public Token(Statement statement) {
-        this.symbol = null;
-        this.value = null;
+        this();
         this.statement = statement;
-        this.children = new LinkedList<>();
     }
 
     public Token(Symbol symbol, String value) {
+        this();
         this.symbol = symbol;
         this.value = value;
-        this.statement = null;
-        this.children = new LinkedList<>();
     }
 
     public Token getChild(int index) {
@@ -43,9 +40,7 @@ public class Token {
 
     @Override
     public String toString() {
-        if (symbol != null)
-            return value;
-        return statement.toString();
+        return symbol != null ? value : statement.toString();
     }
 
 

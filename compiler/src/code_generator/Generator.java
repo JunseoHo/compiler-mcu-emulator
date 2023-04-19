@@ -2,7 +2,6 @@ package code_generator;
 
 import lexer.Symbol;
 import lexer.Token;
-import parser.ParseNode;
 import parser.Parser;
 import parser.Statement;
 
@@ -38,27 +37,6 @@ public class Generator {
     private final String NOT = "1110";
     private final String XOR = "1111";
 
-//    private final String IM = "IM   ";
-//    private final String DI = "DI   ";
-//    private final String IN = "IN   ";
-//
-//    private final String HLT = "HLT ";
-//    private final String PRT = "PRT ";
-//    private final String STO = "STO ";
-//    private final String LDA = "LDA ";
-//    private final String ADD = "ADD ";
-//    private final String SUB = "SUB ";
-//    private final String MUL = "MUL ";
-//    private final String DIV = "DIV ";
-//    private final String JMP = "JMP ";
-//    private final String JPZ = "JPZ ";
-//    private final String JPN = "JPN ";
-//    private final String JPP = "JPP ";
-//    private final String AND = "AND ";
-//    private final String OR = "OR   ";
-//    private final String NOT = "NOT ";
-//    private final String XOR = "XOR ";
-
     public Generator() {
         instructions = new LinkedList<>();
         idTable = new LinkedList<>();
@@ -71,14 +49,14 @@ public class Generator {
     public void generate() {
         Token root = parser.getParseTree();
         for (Token child : root.children)
-            instructions.addAll(statement(child));
+            instructions.addAll(statement(child, instructions.size()));
         instructions.add(IM + HLT + toBinary(0));
     }
 
-    private List<String> statement(Token node) {
+    private List<String> statement(Token node, int entryPoint) {
         if (node.statement == Statement.ASSIGNMENT) return assignment(node);
-        else if (node.statement == Statement.SELECTION) return selection(node);
-        else if (node.statement == Statement.ITERATION) return iteration(node);
+        else if (node.statement == Statement.SELECTION) return selection(node, entryPoint);
+        else if (node.statement == Statement.ITERATION) return iteration(node, entryPoint);
         else if (node.statement == Statement.PRINT) return print(node);
         else if (node.symbol == Symbol.ENDWHILE || node.symbol == Symbol.ENDIF)
             return new LinkedList<>();
@@ -90,48 +68,42 @@ public class Generator {
         return null;
     }
 
-    private List<String> selection(Token node) {
+    private List<String> selection(Token node, int entryPoint) {
         List<String> block = new LinkedList<>();
-        int entryPoint = instructions.size();
+//        int entryPoint = instructions.size();
         for (Token child : node.getChild(2).children)
-            block.addAll(statement(child));
+            block.addAll(statement(child, entryPoint + block.size() + 3));
         int terminalPoint = entryPoint + block.size() + 4;
-        Token leftOperand = node.getChild(1).getChild(0);
-        Token operator = node.getChild(1).getChild(1);
-        Token rightOperand = node.getChild(1).getChild(2);
-        if (operator.value.equals("!=")) operator.value = JPZ;
-        if (operator.value.equals(">")) operator.value = JPN;
-        if (operator.value.equals("<")) operator.value = JPP;
-        block.add(0, IM + operator.value + toBinary(terminalPoint));
-        if (rightOperand.symbol == Symbol.IDENTIFIER)
-            block.add(0, DI + SUB + toBinary(rightOperand));
-        else block.add(0, IM + SUB + toBinary(rightOperand));
-        if (leftOperand.symbol == Symbol.IDENTIFIER)
-            block.add(0, DI + LDA + toBinary(leftOperand));
-        else block.add(0, IM + LDA + toBinary(leftOperand));
+        block.addAll(0, condition(node, terminalPoint));
         return block;
     }
 
-    private List<String> iteration(Token node) {
+    private List<String> iteration(Token node, int entryPoint) {
         List<String> block = new LinkedList<>();
-        int entryPoint = instructions.size();
+//        int entryPoint = instructions.size();
         for (Token child : node.getChild(2).children)
-            block.addAll(statement(child));
+            block.addAll(statement(child, entryPoint + block.size() + 3));
         int terminalPoint = entryPoint + block.size() + 4;
         block.add(IM + JMP + toBinary(entryPoint));
+        block.addAll(0, condition(node, terminalPoint));
+        return block;
+    }
+
+    private List<String> condition(Token node, int terminalPoint) {
+        List<String> block = new LinkedList<>();
         Token leftOperand = node.getChild(1).getChild(0);
         Token operator = node.getChild(1).getChild(1);
         Token rightOperand = node.getChild(1).getChild(2);
+        if (leftOperand.symbol == Symbol.IDENTIFIER)
+            block.add(DI + LDA + toBinary(leftOperand));
+        else block.add(IM + LDA + toBinary(leftOperand));
+        if (rightOperand.symbol == Symbol.IDENTIFIER)
+            block.add(DI + SUB + toBinary(rightOperand));
+        else block.add(IM + SUB + toBinary(rightOperand));
         if (operator.value.equals("!=")) operator.value = JPZ;
         if (operator.value.equals(">")) operator.value = JPN;
         if (operator.value.equals("<")) operator.value = JPP;
-        block.add(0, IM + operator.value + toBinary(terminalPoint));
-        if (rightOperand.symbol == Symbol.IDENTIFIER)
-            block.add(0, DI + SUB + toBinary(rightOperand));
-        else block.add(0, IM + SUB + toBinary(rightOperand));
-        if (leftOperand.symbol == Symbol.IDENTIFIER)
-            block.add(0, DI + LDA + toBinary(leftOperand));
-        else block.add(0, IM + LDA + toBinary(leftOperand));
+        block.add(IM + operator.value + toBinary(terminalPoint));
         return block;
     }
 
@@ -177,7 +149,7 @@ public class Generator {
     }
 
     private String toBinary(Token token) {
-        int value = 0;
+        int value;
         if (token.symbol == Symbol.IDENTIFIER) {
             int index = idTable.indexOf(token.value);
             if (index == -1) {
@@ -197,5 +169,12 @@ public class Generator {
 
     public void printInstructions() {
         for (String instruction : instructions) System.out.println(instruction);
+    }
+
+    public String getInstructions() {
+        String codes = "";
+        for (String line : instructions)
+            codes += line + "\n";
+        return codes;
     }
 }

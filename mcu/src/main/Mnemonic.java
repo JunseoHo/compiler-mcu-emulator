@@ -1,9 +1,9 @@
 package main;
 
 public class Mnemonic {
-    public static String IMMEDIATE = "IM";
-    public static String DIRECT = "DI";
-    public static String INDIRECT = "IN";
+    public static String IMMEDIATE = "im";
+    public static String DIRECT = "di";
+    public static String INDIRECT = "in";
     public static String HLT = "hlt";
     public static String PRT = "prt";
     public static String STO = "sto";
