@@ -1,0 +1,42 @@
+NAME
+    Simple Compiler for 2023-1 System Programming Midterm Assignment
+
+DESCRIPTION
+    Author       : Junseo Ho
+    Organization : Myongji University
+    Modified     : 2023-04-21
+
+    This program is a compiler that can compile the simple high-level programming language.
+
+OPTIONS
+    -help
+        Print this help document
+    -p
+        Print symbol table, parse tree, compiled machine instructions.
+
+SYMBOL
+    Symbol                  Regex
+    ---------------------------------------------
+    IF                      ^if$
+    ENDIF                   ^endif$
+    WHILE                   ^while$
+    ENDWHILE                ^endwhile$
+    RELATIONAL_OPERATOR     ^!=|<|>$
+    ARITHMETIC_OPERATOR     ^\\+|-|/|\\*$
+    EQUALS_SIGN             ^=$
+    PRINT_FUNC              ^print$
+    IDENTIFIER              ^[^0-9][a-zA-Z0-9]*$
+    NUMBER                  ^[0-9]*$
+
+PRODUCTION RULE
+    <VALUE>             ::= <IDENTIFIER> | <NUMBER>
+    <EXPRESSION>        ::= <VALUE><ARITHMETIC_OPERATOR><VALUE>
+    <ASSIGNMENT>        ::= <IDENTIFIER><EQUALS_SIGN><EXPRESSION>
+    <CONDITION>         ::= <VALUE><RELATIONAL_OPERATOR><VALUE>
+    <ITERATION_BRANCH>  ::= <STATEMENT><ITERATION_BRANCH> | <STATEMENT><ENDWHILE>
+    <SELECTION_BRANCH>  ::= <STATEMENT><SELECTION_BRANCH> | <STATEMENT><ENDIF>
+    <ITERATION>         ::= <WHILE><CONDITION><ITERATION_BRANCH>
+    <SELECTION>         ::= <IF><CONDITION><SELECTION_BRANCH>
+    <PRINT>             ::= <PRINT_FUNC><VALUE>
+    <STATEMENT>         ::= <ASSIGNMENT> | <ITERATION> | <SELECTION> | <PRINT>
+    <PROGRAM>           ::= <STATEMENT> | <STATEMENT><PROGRAM>
