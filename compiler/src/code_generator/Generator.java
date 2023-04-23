@@ -127,6 +127,9 @@ public class Generator {
             if (operator.value.equals("-")) operator.value = SUB;
             if (operator.value.equals("*")) operator.value = MUL;
             if (operator.value.equals("/")) operator.value = DIV;
+            if (operator.value.equals("&")) operator.value = AND;
+            if (operator.value.equals("|")) operator.value = OR;
+            if (operator.value.equals("^")) operator.value = XOR;
             if (rightOperand.symbol == Symbol.IDENTIFIER)
                 block.add(DI + operator.value + toBinary(rightOperand));
             else block.add(IM + operator.value + toBinary(rightOperand));

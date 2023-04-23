@@ -12,7 +12,7 @@ public enum Symbol {
 
     RELATIONAL_OPERATOR("^!=|<|>$"),
 
-    ARITHMETIC_OPERATOR("^\\+|-|/|\\*$"),
+    ARITHMETIC_OPERATOR("^\\+|-|/|\\*|&|\\||\\^$"),
 
     EQUALS_SIGN("^=$"),
 
