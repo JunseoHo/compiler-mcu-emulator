@@ -21,7 +21,8 @@ and consists of three modules:<br>
 
 
 # Compiler Manual
+![compiler_help](./img/compiler_help.png)
 
 # MCU Manual
-
+![mcu_help](./img/mcu_help.png)
 

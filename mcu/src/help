@@ -42,5 +42,5 @@ OPCODE
     1011    0x0B    jpp         if zero flag and negative flag are false, store operand in PC
     1100    0x0C    and         operate bitwise-and with AC and operand, store the result value in AC
     1101    0x0D    or          operate bitwise-or with AC and operand, store the result value in AC
-    1110    0x0E    not         invert all bits in AC
-    1111    0x0F    xor         operate bitwise-xor with AC and operand, store the result value in AC
+    1110    0x0E    xor         operate bitwise-xor with AC and operand, store the result value in AC
+

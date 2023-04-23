@@ -34,8 +34,7 @@ public class Generator {
     private final String JPP = "1011";
     private final String AND = "1100";
     private final String OR = "1101";
-    private final String NOT = "1110";
-    private final String XOR = "1111";
+    private final String XOR = "1110";
 
     public Generator() {
         instructions = new LinkedList<>();
