@@ -10,6 +10,8 @@ public enum Symbol {
 
     ENDWHILE("^endwhile$"),
 
+    DATA_TYPE("^int|long$"),
+
     RELATIONAL_OPERATOR("^!=|<|>$"),
 
     ARITHMETIC_OPERATOR("^\\+|-|/|\\*|&|\\||\\^$"),

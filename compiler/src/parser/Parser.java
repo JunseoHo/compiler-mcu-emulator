@@ -4,9 +4,6 @@ import lexer.Lexer;
 import lexer.Symbol;
 import lexer.Token;
 
-import java.util.LinkedList;
-import java.util.List;
-
 public class Parser {
 
     private Lexer lexer;
@@ -35,19 +32,33 @@ public class Parser {
             printParseTree(child, width + node.toString().length() - 1);
     }
 
-    public void parse() {
+    public boolean parse() {
         nextToken();
-        program();
+        return program();
     }
 
-    private void program() {
+    private boolean program() {
         root = new Token(Statement.PROGRAM);
-        while (token != null) root.addChild(statement());
+        while (token != null) {
+            Token token = statement();
+            if (token == null) {
+                System.out.println("Unexpected Symbol : " + token.value);
+                System.out.printf("%-20s%-7s\n", "Parsing", "KO :(");
+                return false;
+            }
+            root.addChild(token);
+        }
+        return true;
     }
 
     private Token statement() {
         Token node = new Token();
-        if (accept(Symbol.IDENTIFIER, node)) {
+        if (accept(Symbol.DATA_TYPE, node)) {
+            node.statement = Statement.DECLARATION;
+            expect(Symbol.IDENTIFIER, node);
+            expect(Symbol.EQUALS_SIGN, node);
+            node.addChild(expression());
+        } else if (accept(Symbol.IDENTIFIER, node)) {
             node.statement = Statement.ASSIGNMENT;
             expect(Symbol.EQUALS_SIGN, node);
             node.addChild(expression());
@@ -62,11 +73,7 @@ public class Parser {
         } else if (accept(Symbol.PRINT_FUNC, node)) {
             node.statement = Statement.PRINT;
             if (!accept(Symbol.IDENTIFIER, node)) expect(Symbol.NUMBER, node);
-        } else {
-            System.out.println("Unexpected Symbol : " + token.value);
-            System.out.printf("%-20s%-7s\n", "Parsing", "KO :(");
-            System.exit(0);
-        }
+        } else return null;
         return node;
     }
 

@@ -9,19 +9,20 @@ public class Lexer {
 
     private final Queue<Token> symbolTable = new LinkedList<>();
 
-    public void analysis(String sourceCode) {
+    public boolean analysis(String sourceCode) {
         Scanner scanner = new Scanner(sourceCode);
         while (scanner.hasNext()) {
-            String token = scanner.next();
-            Symbol symbol = findSymbol(token);
+            String lexeme = scanner.next();
+            Symbol symbol = findSymbol(lexeme);
             if (symbol == null) {
-                System.out.println("Unknown Token : " + token);
+                System.out.println("Unknown Token : " + lexeme);
                 System.out.printf("%-20s%-7s\n", "Lexical Analysis", "KO :(");
-                System.exit(0);
+                return false;
             }
-            symbolTable.add(new Token(symbol, token));
+            symbolTable.add(new Token(symbol, lexeme));
         }
         scanner.close();
+        return true;
     }
 
     private Symbol findSymbol(String value) {

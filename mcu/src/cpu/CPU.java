@@ -106,8 +106,7 @@ public class CPU {
             case 0x0B -> jpp();
             case 0x0C -> and();
             case 0x0D -> or();
-            case 0x0E -> not();
-            case 0x0F -> xor();
+            case 0x0E -> xor();
         }
     }
 
@@ -120,13 +119,13 @@ public class CPU {
         else if (AMODE == 0x01) {
             MAR = DS + OPERAND;
             memory.load();
-            System.out.printf("%#X\n", MBR);
+            System.out.printf("%d\n", MBR);
         } else if (AMODE == 0x02) {
             MAR = DS + OPERAND;
             memory.load();
             MAR = DS + MBR;
             memory.load();
-            System.out.printf("%#X\n", MBR);
+            System.out.printf("%d\n", MBR);
         } else
             throw new AddressingModeException("Addressing mode is invalid : " + AMODE);
     }
@@ -272,23 +271,6 @@ public class CPU {
             MAR = DS + MBR;
             memory.load();
             AC |= MBR;
-        } else
-            throw new AddressingModeException("Addressing mode is invalid : " + AMODE);
-        ZERO_FLAG = AC == 0;
-    }
-
-    private void not() throws AddressingModeException {
-        if (AMODE == 0x00) AC = ~OPERAND;
-        else if (AMODE == 0x01) {
-            MAR = DS + OPERAND;
-            memory.load();
-            AC = ~MBR;
-        } else if (AMODE == 0x02) {
-            MAR = DS + OPERAND;
-            memory.load();
-            MAR = DS + MBR;
-            memory.load();
-            AC = ~MBR;
         } else
             throw new AddressingModeException("Addressing mode is invalid : " + AMODE);
         ZERO_FLAG = AC == 0;

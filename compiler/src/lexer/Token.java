@@ -43,5 +43,4 @@ public class Token {
         return symbol != null ? value : statement.toString();
     }
 
-
 }

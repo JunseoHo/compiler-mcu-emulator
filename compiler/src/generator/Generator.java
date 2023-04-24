@@ -1,4 +1,4 @@
-package code_generator;
+package generator;
 
 import lexer.Symbol;
 import lexer.Token;
@@ -12,7 +12,7 @@ public class Generator {
 
     private Parser parser;
     private List<String> instructions;
-    private List<String> idTable;
+    private List<Identifier> idTable;
 
     // addressing mode
     private final String IM = "00";
@@ -45,31 +45,41 @@ public class Generator {
         this.parser = parser;
     }
 
-    public void generate() {
+    public boolean generate() {
         Token root = parser.getParseTree();
-        for (Token child : root.children)
-            instructions.addAll(statement(child, instructions.size()));
+        for (Token child : root.children) {
+            List<String> block = statement(child, instructions.size());
+            if (block == null || checkNullContained(block))
+                return false;
+            instructions.addAll(block);
+        }
         instructions.add(IM + HLT + toBinary(0));
+        return true;
     }
 
     private List<String> statement(Token node, int entryPoint) {
-        if (node.statement == Statement.ASSIGNMENT) return assignment(node);
+        if (node.statement == Statement.DECLARATION) return declaration(node);
+        else if (node.statement == Statement.ASSIGNMENT) return assignment(node);
         else if (node.statement == Statement.SELECTION) return selection(node, entryPoint);
         else if (node.statement == Statement.ITERATION) return iteration(node, entryPoint);
         else if (node.statement == Statement.PRINT) return print(node);
-        else if (node.symbol == Symbol.ENDWHILE || node.symbol == Symbol.ENDIF)
-            return new LinkedList<>();
+        else if (node.symbol == Symbol.ENDWHILE || node.symbol == Symbol.ENDIF) return new LinkedList<>();
         else {
             System.out.println("Unknown Statement : " + node.statement);
             System.out.printf("%-20s%-7s\n", "Code Generation", "KO :(");
-            System.exit(0);
+            return null;
         }
-        return null;
+    }
+
+    private List<String> declaration(Token node) {
+        List<String> block = new LinkedList<>(expression(node.getChild(3)));
+        addIdentifier(node.getChild(0), node.getChild(1));
+        block.add(DI + STO + toBinary(node.getChild(1)));
+        return block;
     }
 
     private List<String> selection(Token node, int entryPoint) {
         List<String> block = new LinkedList<>();
-//        int entryPoint = instructions.size();
         for (Token child : node.getChild(2).children)
             block.addAll(statement(child, entryPoint + block.size() + 3));
         int terminalPoint = entryPoint + block.size() + 4;
@@ -79,7 +89,6 @@ public class Generator {
 
     private List<String> iteration(Token node, int entryPoint) {
         List<String> block = new LinkedList<>();
-//        int entryPoint = instructions.size();
         for (Token child : node.getChild(2).children)
             block.addAll(statement(child, entryPoint + block.size() + 3));
         int terminalPoint = entryPoint + block.size() + 4;
@@ -150,15 +159,45 @@ public class Generator {
         return block;
     }
 
+    private boolean checkNullContained(List<String> block) {
+        for (String line : block) {
+            if (line.contains("null"))
+                return true;
+        }
+        return false;
+    }
+
+    private void addIdentifier(Token type, Token id) {
+        Identifier identifier = new Identifier();
+        identifier.name = id.value;
+        identifier.type = type.value;
+        switch (identifier.type) {
+            case "int" -> identifier.size = 4;
+            case "long" -> identifier.size = 8;
+        }
+        if (idTable.isEmpty()) identifier.address = 0;
+        else {
+            Identifier lastIdentifier = idTable.get(idTable.size() - 1);
+            identifier.address = lastIdentifier.address + lastIdentifier.size;
+        }
+        idTable.add(identifier);
+    }
+
     private String toBinary(Token token) {
-        int value;
+        Integer value = null;
         if (token.symbol == Symbol.IDENTIFIER) {
-            int index = idTable.indexOf(token.value);
-            if (index == -1) {
-                idTable.add(token.value);
-                value = idTable.size() - 1;
-            } else value = index;
+            for (Identifier id : idTable) {
+                if (id.name.equals(token.value)) {
+                    value = id.address;
+                    break;
+                }
+            }
         } else value = Integer.parseInt(token.value);
+        if (value == null) {
+            System.out.println("Unknown Identifier : " + token.value);
+            System.out.printf("%-20s%-7s\n", "Code Generation", "KO :(");
+            return null;
+        }
         return toBinary(value);
     }
 

@@ -4,6 +4,8 @@ public enum Statement {
 
     PROGRAM,
 
+    DECLARATION,
+
     ASSIGNMENT,
 
     EXPRESSION,

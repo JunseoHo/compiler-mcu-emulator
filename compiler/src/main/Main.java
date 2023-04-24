@@ -1,6 +1,6 @@
 package main;
 
-import code_generator.Generator;
+import generator.Generator;
 import lexer.Lexer;
 import parser.Parser;
 import preprocessor.Preprocessor;
@@ -34,15 +34,15 @@ public class Main {
 
                 sourceCode = preprocessor.preprocess(sourceCode);
 
-                lexer.analysis(sourceCode);
+                if (!lexer.analysis(sourceCode)) return;
                 if (Option.PRINT_OPTION) lexer.printSymbolTable();
                 System.out.printf("%-20s%-7s\n", "Lexical Analysis", "OK :)");
 
-                parser.parse();
+                if (!parser.parse()) return;
                 if (Option.PRINT_OPTION) parser.printParseTree();
                 System.out.printf("%-20s%-7s\n", "Parsing", "OK :)");
 
-                generator.generate();
+                if (!generator.generate()) return;
                 if (Option.PRINT_OPTION) generator.printInstructions();
                 System.out.printf("%-20s%-7s\n", "Code Generation", "OK :)");
 
