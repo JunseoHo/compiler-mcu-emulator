@@ -19,11 +19,19 @@ public class Loader {
         this.memory = memory;
     }
 
-    public void load(String pathName) throws FileNotFoundException {
+    public boolean load(String pathName) {
         List<String> instructions = new LinkedList<>();
-        Scanner scanner = new Scanner(new File(pathName));
-        while (scanner.hasNextLine()) instructions.add(scanner.nextLine());
-        cpu.initialize(0, instructions.size());
-        memory.loadProgram(0, instructions);
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(new File(pathName));
+            while (scanner.hasNextLine()) instructions.add(scanner.nextLine());
+            cpu.initialize(0, instructions.size());
+            memory.loadProgram(0, instructions);
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Source not found : " + pathName);
+            return false;
+        }
+        return true;
     }
 }

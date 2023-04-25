@@ -171,14 +171,16 @@ public class Generator {
         Identifier identifier = new Identifier();
         identifier.name = id.value;
         identifier.type = type.value;
-        switch (identifier.type) {
-            case "int" -> identifier.size = 4;
-            case "long" -> identifier.size = 8;
+        for (DataType dataType : DataType.values()) {
+            if (dataType.getName().equals(identifier.type)) {
+                identifier.size = dataType.getSize();
+                break;
+            }
         }
         if (idTable.isEmpty()) identifier.address = 0;
         else {
-            Identifier lastIdentifier = idTable.get(idTable.size() - 1);
-            identifier.address = lastIdentifier.address + lastIdentifier.size;
+            Identifier lastId = idTable.get(idTable.size() - 1);
+            identifier.address = lastId.address + lastId.size;
         }
         idTable.add(identifier);
     }

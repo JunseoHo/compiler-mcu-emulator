@@ -32,9 +32,7 @@ public class Main {
                 loader.associate(cpu, memory);
                 cpu.associate(memory);
                 memory.associate(cpu);
-
-                loader.load(sourceFile);
-                cpu.run();
+                if (loader.load(sourceFile)) cpu.run();
             } else printFile("usage");
         }
     }
