@@ -82,7 +82,7 @@ public class Generator {
         List<String> block = new LinkedList<>();
         for (Token child : node.getChild(2).children)
             block.addAll(statement(child, entryPoint + block.size() + 3));
-        int terminalPoint = entryPoint + block.size() + 4;
+        int terminalPoint = entryPoint + block.size() + 3;
         block.addAll(0, condition(node, terminalPoint));
         return block;
     }
@@ -91,7 +91,7 @@ public class Generator {
         List<String> block = new LinkedList<>();
         for (Token child : node.getChild(2).children)
             block.addAll(statement(child, entryPoint + block.size() + 3));
-        int terminalPoint = entryPoint + block.size() + 4;
+        int terminalPoint = entryPoint + block.size() + 4; // iteration has jump statement, then 3 + 1
         block.add(IM + JMP + toBinary(entryPoint));
         block.addAll(0, condition(node, terminalPoint));
         return block;

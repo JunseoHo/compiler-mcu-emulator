@@ -318,7 +318,7 @@ public class CPU {
             case 0x0E -> mnemonic = Mnemonic.NOT;
             case 0x0F -> mnemonic = Mnemonic.XOR;
         }
-        System.out.printf("%-4s%-5s%#X\n", addressingMode, mnemonic, OPERAND);
+        System.out.printf("%-4s%-5s%d\n", addressingMode, mnemonic, OPERAND);
     }
 }
 

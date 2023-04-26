@@ -1,0 +1,11 @@
+// name        : sample04
+// author      : JunseoHo
+// description : Program to print square numbers in 0 to 100
+
+int num = 0
+int power = 0
+while power <= 99
+    num = num + 1
+    power = num * num
+    print power
+endwhile
