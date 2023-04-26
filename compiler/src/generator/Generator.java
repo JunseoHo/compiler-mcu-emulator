@@ -109,8 +109,8 @@ public class Generator {
             block.add(DI + SUB + toBinary(rightOperand));
         else block.add(IM + SUB + toBinary(rightOperand));
         if (operator.value.equals("!=")) operator.value = JPZ;
-        if (operator.value.equals(">")) operator.value = JPN;
-        if (operator.value.equals("<")) operator.value = JPP;
+        if (operator.value.equals(">=")) operator.value = JPN;
+        if (operator.value.equals("<=")) operator.value = JPP;
         block.add(IM + operator.value + toBinary(terminalPoint));
         return block;
     }

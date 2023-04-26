@@ -2,16 +2,14 @@
 // author      : JunseoHo
 // description : Program to find the 20th Fibonacci number
 
-fibo0 = 0
-fibo1 = 1
-fibo2 = 1
-index = 1
-count = 20
-while index < count
-    fibo2 = fibo0 + fibo1
+int fibo0 = 0
+int fibo1 = 1
+long result = 1
+short index = 1
+while index <= 19
+    result = fibo0 + fibo1
     fibo0 = fibo1
-    fibo1 = fibo2
+    fibo1 = result
     index = index + 1
 endwhile
-print index
-print fibo2
+print result

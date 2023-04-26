@@ -1,18 +1,21 @@
 // name        : sample02
 // author      : JunseoHo
-// description : Program to calculate 5 * 5 through nested iterations
+// description : Program to calculate 5 * 5 * 5 through nested iterations
 
-i = 0
-j = 0
-k = 0
-while i < 5
-    j = 0
-    while j < 5
+int i = 1
+int j = 1
+int k = 1
+long result = 0
+while i <= 5
+    j = 1
+    while j <= 5
+        k = 1
+        while k <= 5
+            result = result + 1
+            k = k + 1
+        endwhile
         j = j + 1
-        k = k + 1
     endwhile
     i = i + 1
 endwhile
-print i
-print j
-print k
+print result

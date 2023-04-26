@@ -238,8 +238,7 @@ public class CPU {
     }
 
     private void jpp() {
-        if (!NEGATIVE_FLAG || ZERO_FLAG)
-            PC = OPERAND;
+        if (!NEGATIVE_FLAG && !ZERO_FLAG) PC = OPERAND;
     }
 
     private void and() throws AddressingModeException {

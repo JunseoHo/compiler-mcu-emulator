@@ -1,8 +1,5 @@
-// name        : sample03
+// name        : sample02
 // author      : JunseoHo
-// description : Program to calculate 5 * 5 through nested iterations
+// description : Program to calculate 5 * 5 * 5 through nested iterations
 
-a = 5
-b = -10
-c = a + b
-print c
+int

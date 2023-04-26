@@ -21,6 +21,7 @@ SYMBOL
     ENDIF                   ^endif$
     WHILE                   ^while$
     ENDWHILE                ^endwhile$
+    DATA_TYPE               ^short|int|long$
     RELATIONAL_OPERATOR     ^!=|<|>$
     ARITHMETIC_OPERATOR     ^\\+|-|/|\\*$
     EQUALS_SIGN             ^=$
@@ -31,6 +32,7 @@ SYMBOL
 PRODUCTION RULE
     <VALUE>             ::= <IDENTIFIER> | <NUMBER>
     <EXPRESSION>        ::= <VALUE><ARITHMETIC_OPERATOR><VALUE>
+    <DECLARATION>       ::= <DATA_TYPE><ASSIGNMENT>
     <ASSIGNMENT>        ::= <IDENTIFIER><EQUALS_SIGN><EXPRESSION>
     <CONDITION>         ::= <VALUE><RELATIONAL_OPERATOR><VALUE>
     <ITERATION_BRANCH>  ::= <STATEMENT><ITERATION_BRANCH> | <STATEMENT><ENDWHILE>
