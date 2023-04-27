@@ -4,6 +4,7 @@ import cpu.CPU;
 import exception.AddressingModeException;
 import loader.Loader;
 import memory.Memory;
+import output.Monitor;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,11 +29,16 @@ public class Main {
                 CPU cpu = new CPU();
                 Memory memory = new Memory();
                 Loader loader = new Loader();
+                Monitor monitor = new Monitor();
 
                 loader.associate(cpu, memory);
                 cpu.associate(memory);
                 memory.associate(cpu);
-                if (loader.load(sourceFile)) cpu.run();
+                monitor.associate(memory);
+                if (loader.load(sourceFile)) {
+                    cpu.run();
+                    monitor.run();
+                }
             } else printFile("usage");
         }
     }

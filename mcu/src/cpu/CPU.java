@@ -119,13 +119,13 @@ public class CPU {
         else if (AMODE == 0x01) {
             MAR = DS + OPERAND;
             memory.load();
-            System.out.printf("%d\n", MBR);
+            memory.writeOutput(String.valueOf(MBR));
         } else if (AMODE == 0x02) {
             MAR = DS + OPERAND;
             memory.load();
             MAR = DS + MBR;
             memory.load();
-            System.out.printf("%d\n", MBR);
+            memory.writeOutput(String.valueOf(MBR));
         } else
             throw new AddressingModeException("Addressing mode is invalid : " + AMODE);
     }

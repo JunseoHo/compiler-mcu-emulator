@@ -18,12 +18,16 @@ OPTIONS
     -d
         Execute one instruction each time input is received from standard input
 
+INSTRUCTION DESIGN
+    [ADDRESSING_MODE][OPCODE][OPERAND]
+    ------2bit------|--4bit--|-26bit--
+
 ADDRESSING_MODE
-    Bin     Hex     Description
-    ----------------------------
-    00      0x00    immediate
-    01      0x01    direct
-    11      0x10    indirect
+    Bin     Hex     Mnemonic    Description
+    ----------------------------------------
+    00      0x00    im          immediate
+    01      0x01    di          direct
+    11      0x10    in          indirect
 
 OPCODE
     Bin     Hex     Mnemonic    Description
