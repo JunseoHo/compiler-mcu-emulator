@@ -15,21 +15,27 @@ public class Main {
             print(Constant.USAGE_FILE_PATH);
             return;
         }
-        String filePath = null;
+        String sourceFilePath = null;
         for (String arg : args) {
             switch (arg) {
                 case Option.HELP_FLAG -> Option.HELP_OPTION = true;
                 case Option.PRINT_FLAG -> Option.PRINT_OPTION = true;
-                default -> filePath = Constant.PATH_NAME + arg;
+                default -> {
+                    if (sourceFilePath != null) {
+                        print(Constant.USAGE_FILE_PATH);
+                        return;
+                    }
+                    sourceFilePath = Constant.PATH_NAME + arg;
+                }
             }
         }
         if (Option.HELP_OPTION) print(Constant.HELP_FILE_PATH);
-        else compile(filePath);
+        else compile(sourceFilePath);
     }
 
-    private static void compile(String filePath) throws IOException {
+    private static void compile(String sourceFilePath) throws IOException {
         String sourceCode;
-        if ((sourceCode = read(filePath)) != null) {
+        if ((sourceCode = read(sourceFilePath)) != null) {
             Preprocessor preprocessor = new Preprocessor();
             Lexer lexer = new Lexer();
             Parser parser = new Parser();
@@ -54,7 +60,7 @@ public class Main {
             System.out.printf("%-20s%-7s\n", "Code Generation", "OK :)");
 
             System.out.println("The source code has been compiled successfully!");
-            write(filePath + Constant.EXTENSION_NAME, generator.getInstructions());
+            write(sourceFilePath + Constant.EXTENSION_NAME, generator.getInstructions());
         } else print(Constant.USAGE_FILE_PATH);
     }
 

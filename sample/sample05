@@ -1,0 +1,23 @@
+// name        : sample05
+// author      : JunseoHo
+// description : Program to print the numbers excluding multiples of 3 or 4
+int num = 0
+short temp1 = 1
+short temp2 = 1
+while num <= 99
+    temp1 = num
+    while temp1 >= 3
+        temp1 = temp1 - 3
+    endwhile
+    temp2 = num
+    while temp2 >= 4
+        temp2 = temp2 - 4
+    endwhile
+    if temp1 != 0
+        if temp2 != 0
+            print num
+        endif
+    endif
+    num = num + 1
+endwhile
+

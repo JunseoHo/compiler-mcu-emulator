@@ -4,7 +4,7 @@ NAME
 DESCRIPTION
     Author       : Junseo Ho
     Organization : Myongji University
-    Modified     : 2023-04-21
+    Modified     : 2023-04-29
 
     This program is a compiler that can compile the simple high-level programming language.
 
@@ -22,7 +22,7 @@ SYMBOL
     WHILE                   ^while$
     ENDWHILE                ^endwhile$
     DATA_TYPE               ^short|int|long$
-    RELATIONAL_OPERATOR     ^!=|<|>$
+    RELATIONAL_OPERATOR     ^!=|<=|>=$
     ARITHMETIC_OPERATOR     ^\\+|-|/|\\*$
     EQUALS_SIGN             ^=$
     PRINT_FUNC              ^print$

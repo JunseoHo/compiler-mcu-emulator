@@ -10,7 +10,10 @@ import java.util.List;
 
 public class Generator {
 
+    // associations
     private Parser parser;
+
+    // generation tables
     private List<String> instructions;
     private List<Identifier> idTable;
 
@@ -46,11 +49,11 @@ public class Generator {
     }
 
     public boolean generate() {
+        instructions.clear();
         Token root = parser.getParseTree();
         for (Token child : root.children) {
             List<String> block = statement(child, instructions.size());
-            if (block == null || checkNullContained(block))
-                return false;
+            if (block == null || checkNullContained(block)) return false;
             instructions.addAll(block);
         }
         instructions.add(IM + HLT + toBinary(0));

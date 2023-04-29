@@ -26,3 +26,9 @@ and consists of three modules:<br>
 # MCU Manual
 ![mcu_help](./img/mcu_help.png)
 
+# Execution examples
+
+![symbol_table](./img/symbol_table.png)
+![parse_tree](./img/parse_tree.png)
+![machine_code](./img/machine_code.png)
+![mcu](./img/mcu.png)

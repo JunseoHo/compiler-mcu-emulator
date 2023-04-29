@@ -1,2 +1,3 @@
 Usage: <source file> <options>
-use -help for a list of possible options
+Only one source file is allowed.
+use -help for a list of possible options.
