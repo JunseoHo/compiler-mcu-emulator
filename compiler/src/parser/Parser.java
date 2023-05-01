@@ -42,7 +42,7 @@ public class Parser {
         while (token != null) {
             Token token = statement();
             if (token == null) {
-                System.out.println("Unexpected Symbol : " + token.value);
+                System.out.println("Unexpected Symbol : " + this.token.value);
                 System.out.printf("%-20s%-7s\n", "Parsing", "KO :(");
                 return false;
             }
